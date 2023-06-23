@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  surrealdb:
+    image: surrealdb/surrealdb:latest
+    restart: always
+    ports:
+      - 8080:8080
+      - 8000:8000
+    command: start --log trace --user root --pass root file:/data/mydatabase.db
+    volumes:
+      - surrealdb:/data
+    healthcheck:
+      test: ["CMD", "/surreal", "isready", "--conn", "http://surrealdb:8000"]
+
+volumes:
+  surrealdb:
